@@ -1,64 +1,85 @@
 <script lang="ts" setup>
-import {
-  ref,
-  computed,
-  onMounted,
-  onUnmounted,
-  $navigateTo,
-} from 'nativescript-vue';
-import Details from './Details.vue';
-
-const counter = ref(0);
-const message = computed(() => {
-  return `Blank {N}-Vue app: ${counter.value}`;
-});
-
-function logMessage() {
-  console.log('You have tapped the message!');
-}
-
-let interval: any;
-onMounted(() => {
-  console.log('mounted');
-  interval = setInterval(() => counter.value++, 100);
-});
-
-onUnmounted(() => {
-  console.log('unmounted');
-  clearInterval(interval);
-});
+  import Badge from './Badge.vue';
 </script>
 
 <template>
   <Frame>
     <Page>
-      <ActionBar>
-        <Label text="Home" class="font-bold text-lg" />
+      <ActionBar title="Milford Bible Companion">
+        <NavigationButton text="Go back" icon="~/assets/typescript.png"></NavigationButton>
+        <ActionItem icon="~/assets/hamburger.png" @tap="onToggle" ios.position="right"></ActionItem>
       </ActionBar>
 
-      <GridLayout rows="*, auto, auto, *" class="px-4">
-        <Label
-          row="1"
-          class="text-xl align-middle text-center text-gray-500"
-          :text="message"
-          @tap="logMessage"
-        />
+      <GridLayout class="content" rows="*">
+        <StackLayout>
+          <Label class="title" text="Milford Bible Companion" height="35"/>
+          <Label class="sub-title" text="By Milford Ind. Baptist Church" height="27"/>
+          <FlexboxLayout alignItems="flex-start">
+            <Badge type="vuejs" />
+            <Badge type="typescript" />
+            <Badge type="github" />
+            <Badge type="kingjames" />
+          </FlexboxLayout>
+        </StackLayout>
 
-        <Button
-          row="2"
-          @tap="$navigateTo(Details)"
-          class="mt-4 px-4 py-2 bg-white border-2 border-blue-400 rounded-lg"
-          horizontalAlignment="center"
+        <ListView
+          v-if="showList"
+          :items="items"
+          separatorColor="transparent"
+          class="list"
         >
-          View Details
-        </Button>
+          <template #default="{ item }">
+            <GridLayout columns="*, auto" class="px-4">
+              <Label :text="item" class="text-lg py-3 text-black" />
+            </GridLayout>
+          </template>
+        </ListView>
       </GridLayout>
     </Page>
   </Frame>
 </template>
 
+<script lang="ts">
+  import { ref } from 'vue';
+
+  const items = [
+    'Books (5)',
+    'Cross ref (6)',
+    'Accordance (0)',
+    'Sermons (0)',
+    'Illustrations (0)',
+    'Characters (4)',
+    'Images (0)',
+    'Bible Studies (0)',
+    'Reading list (0)',
+    'Notes (0)'
+  ];
+
+  const showList = ref(false);
+
+  export default {
+    methods: {
+      onToggle() {
+        showList.value = !showList.value;
+      }
+    }
+  }
+</script>
+
 <style>
-/* .info {
-    font-size: 20;
-  } */
+  .content {
+    margin: 0 0 0 40px;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 25px 0 0 0;
+  }
+  .sub-title {
+    font-size: 16px;
+    margin: 0 0 25px 0;
+  }
+  .list {
+    margin: 50px 0 0 0;
+  }
 </style>
