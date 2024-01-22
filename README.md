@@ -1,5 +1,5 @@
 # Milford Bible Companion
-Create your own predefined list for any bible word, e.g. "world", "God"
+Create a Bible Word Study using your own predefined list: definition, context, opposites.
 
 [<img src="https://raw.githubusercontent.com/MilfordIndBaptistChurch/MilfordBibleCompanion/main/src/assets/screenshot.png">](https://milfordbiblecompanion.netlify.app)
 
